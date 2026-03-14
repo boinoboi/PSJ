@@ -421,6 +421,14 @@ html,body {
   .footer{padding:10px 16px;flex-direction:column;gap:4px;text-align:center;}
   .sv{font-size:16px;}
 }
+@media(min-width:900px){
+  .card { max-width:820px; }
+  .body { padding:36px 40px 32px; }
+}
+@media(min-width:1200px){
+  .card { max-width:960px; }
+  .body { padding:40px 48px 36px; }
+}
 /* ═══════════════════════════
    GAME BUTTON + PANEL
 ═══════════════════════════ */
@@ -456,8 +464,8 @@ html,body {
 #gamePanel.open { display:flex; }
 
 #gameBox {
-  width:100%; max-width:380px;
-  height:calc(100vh - 24px); max-height:680px;
+  width:100%; max-width:420px;
+  height:calc(100vh - 24px); max-height:720px;
   display:flex; flex-direction:column;
   overflow:hidden; position:relative; flex-shrink:0;
 }
@@ -467,6 +475,63 @@ html,body {
 }
 [data-theme="light"] #gameBox {
   background:#fff; border:3px solid #111; box-shadow:8px 8px 0 #111;
+}
+
+/* ── LANDSCAPE (desktop/tablet) ── */
+@media (orientation:landscape) and (min-width:700px) {
+  #gamePanel { padding:10px; }
+  #gameBox {
+    max-width:none;
+    width:min(960px, calc(100vw - 20px));
+    height:calc(100vh - 20px);
+    max-height:none;
+    flex-direction:row;
+  }
+  /* Left col: header + tabs + canvas */
+  #gameLCol {
+    display:flex; flex-direction:column;
+    flex:1 1 auto; min-width:0; overflow:hidden;
+  }
+  /* Right col: controls panel */
+  #gameRCol {
+    flex:0 0 180px;
+    display:flex; flex-direction:column;
+    overflow-y:auto; overflow-x:hidden;
+    min-width:150px;
+  }
+  [data-theme="dark"] #gameRCol { border-left:1px solid #252525; background:#0d0d0d; }
+  [data-theme="light"] #gameRCol { border-left:3px solid #111; background:#f0ebe0; }
+  /* canvas area fills available height */
+  #gameLCol .game-scroll { flex:1; overflow:hidden; display:flex; flex-direction:column; }
+  #gameLCol .game-screen { flex:1; overflow:hidden; display:flex; flex-direction:column; padding:8px 10px; }
+  #gameLCol .canvas-wrap { flex:1; overflow:hidden; margin-bottom:0; }
+  #gameLCol .canvas-wrap canvas { max-height:100%; width:auto; max-width:100%; }
+  /* score bar compact */
+  #gameLCol .score-bar { margin-bottom:6px; padding:5px 8px; }
+  /* hide controls in left col — they live in right col */
+  .gscreen.act .ls-controls { display:none; }
+  /* right col controls */
+  #gameRCol .ls-controls {
+    display:flex; flex-direction:column;
+    gap:10px; padding:14px 10px;
+    justify-content:center; flex:1;
+  }
+  .rco-label {
+    font-size:8px; letter-spacing:.14em; text-transform:uppercase;
+    padding:10px 10px 2px; flex-shrink:0;
+  }
+  [data-theme="dark"] .rco-label { color:#3a3a3a; font-family:'JetBrains Mono',monospace; }
+  [data-theme="light"] .rco-label { color:#aaa; font-family:'Archivo Black',sans-serif; }
+  /* d-pad slightly smaller in right col */
+  #gameRCol .dpad { grid-template-columns:repeat(3,38px); grid-template-rows:repeat(3,38px); }
+  #gameRCol .dp { font-size:13px; }
+}
+
+/* ── PORTRAIT / narrow landscape ── */
+@media not all and ((orientation:landscape) and (min-width:700px)) {
+  #gameLCol, #gameRCol { display:contents; }
+  .ls-controls { display:contents; }
+  .rco-label { display:none; }
 }
 
 .game-header {
@@ -573,21 +638,28 @@ html,body {
 [data-theme="light"] .game-msg { font-family:'Archivo Black',sans-serif; font-size:8px; }
 
 .restart-btn {
-  position:absolute; top:10px; right:10px; z-index:10;
-  border:none; cursor:pointer; font-size:9px; letter-spacing:.12em;
-  text-transform:uppercase; padding:6px 10px;
-  transition:all .12s; display:flex; align-items:center; gap:5px;
+  position:absolute; top:6px; right:6px; z-index:10;
+  border:none; cursor:pointer;
+  width:26px; height:26px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .12s; flex-shrink:0; padding:0; line-height:1;
 }
-[data-theme="dark"] .restart-btn { background:#1c1c1c; color:#39ff14; border:1px solid #39ff14; font-family:'JetBrains Mono',monospace; }
-[data-theme="dark"] .restart-btn:hover { background:rgba(57,255,20,.1); box-shadow:0 0 12px rgba(57,255,20,.25); }
-[data-theme="dark"] .restart-btn:active { background:rgba(57,255,20,.2); }
-[data-theme="light"] .restart-btn { background:#ffe500; color:#111; border:2px solid #111; box-shadow:3px 3px 0 #111; font-family:'Archivo Black',sans-serif; }
-[data-theme="light"] .restart-btn:hover { transform:translate(-1px,-1px); box-shadow:4px 4px 0 #111; }
-[data-theme="light"] .restart-btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 #111; }
+.restart-btn svg { width:10px; height:10px; display:block; flex-shrink:0; }
+[data-theme="dark"] .restart-btn { background:#1c1c1c; color:#39ff14; border:1px solid #39ff14; }
+[data-theme="dark"] .restart-btn:hover { background:rgba(57,255,20,.15); box-shadow:0 0 10px rgba(57,255,20,.35); transform:scale(1.1); }
+[data-theme="dark"] .restart-btn:active { background:rgba(57,255,20,.25); transform:scale(.95); }
+[data-theme="light"] .restart-btn { background:#ffe500; color:#111; border:2px solid #111; box-shadow:2px 2px 0 #111; }
+[data-theme="light"] .restart-btn:hover { transform:translate(-1px,-1px) scale(1.08); box-shadow:3px 3px 0 #111; }
+[data-theme="light"] .restart-btn:active { transform:translate(1px,1px) scale(.95); box-shadow:1px 1px 0 #111; }
 
 /* hide inactive game screens */
 .gscreen { display:none; }
 .gscreen.act { display:flex; flex-direction:column; flex:1; overflow:hidden; }
+
+/* landscape: gscreen fills left col, controls go to right col */
+@media (orientation:landscape) and (min-width:700px) {
+  #gameLCol .gscreen.act { flex:1; overflow:hidden; }
+}
 
 /* dark theme scan-line pulse on card */
 [data-theme="dark"] .card {
@@ -1054,33 +1126,40 @@ function updateLabels() {
 <!-- GAME PANEL -->
 <div id="gamePanel">
   <div id="gameBox">
-    <div class="game-header">
-      <span class="game-title">// ARCADE</span>
-      <button id="gameClose" onclick="closeGames()">✕</button>
-    </div>
-    <div class="game-tabs">
-      <button class="gtab act" onclick="switchGame('snake',this)">SNAKE</button>
-      <button class="gtab"     onclick="switchGame('tetris',this)">TETRIS</button>
-      <button class="gtab"     onclick="switchGame('brick',this)">BRICKS</button>
-    </div>
-    <div class="game-tabs game-tabs-2">
-      <button class="gtab"     onclick="switchGame('flappy',this)">FLAPPY</button>
-      <button class="gtab"     onclick="switchGame('t2048',this)">2048</button>
-      <button class="gtab"     onclick="switchGame('pong',this)">PONG</button>
-    </div>
 
-    <!-- SNAKE -->
-    <div class="gscreen act" id="gs-snake">
-      <div class="game-scroll">
-        <div class="game-screen">
-          <div class="score-bar">
-            <div class="score-item"><span class="score-lbl">Score</span><span class="score-val" id="sn-score">0</span></div>
-            <div class="score-item"><span class="score-lbl">Best</span><span class="score-val" id="sn-best">0</span></div>
+    <!-- LEFT COL: header + tabs + canvas -->
+    <div id="gameLCol">
+      <div class="game-header">
+        <span class="game-title">// ARCADE</span>
+        <button id="gameClose" onclick="closeGames()">✕</button>
+      </div>
+      <div class="game-tabs">
+        <button class="gtab act" onclick="switchGame('snake',this)">SNAKE</button>
+        <button class="gtab"     onclick="switchGame('tetris',this)">TETRIS</button>
+        <button class="gtab"     onclick="switchGame('brick',this)">BRICKS</button>
+      </div>
+      <div class="game-tabs game-tabs-2">
+        <button class="gtab"     onclick="switchGame('flappy',this)">FLAPPY</button>
+        <button class="gtab"     onclick="switchGame('t2048',this)">2048</button>
+        <button class="gtab"     onclick="switchGame('pong',this)">PONG</button>
+      </div>
+
+      <!-- SNAKE -->
+      <div class="gscreen act" id="gs-snake">
+        <div class="game-scroll">
+          <div class="game-screen">
+            <div class="score-bar">
+              <div class="score-item"><span class="score-lbl">Score</span><span class="score-val" id="sn-score">0</span></div>
+              <div class="score-item"><span class="score-lbl">Best</span><span class="score-val" id="sn-best">0</span></div>
+            </div>
+            <div class="canvas-wrap" style="position:relative;">
+              <canvas id="snakeCanvas" width="280" height="280"></canvas>
+              <button class="restart-btn" onclick="snakeStart()" title="Restart"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 9,5 2,9"/></svg></button>
+            </div>
           </div>
-          <div class="canvas-wrap" style="position:relative;">
-            <canvas id="snakeCanvas" width="280" height="280"></canvas>
-            <button class="restart-btn" onclick="snakeStart()">&#9654; RESTART</button>
-          </div>
+        </div>
+        <div class="ls-controls">
+          <div class="rco-label">Controls</div>
           <div class="dpad">
             <div class="dp blank"></div>
             <button class="dp" onpointerdown="snDir(0,-1)">&#9650;</button>
@@ -1095,21 +1174,24 @@ function updateLabels() {
           <div class="game-msg" id="sn-msg">Arrow keys or d-pad to start</div>
         </div>
       </div>
-    </div>
 
-    <!-- TETRIS -->
-    <div class="gscreen" id="gs-tetris">
-      <div class="game-scroll">
-        <div class="game-screen">
-          <div class="score-bar">
-            <div class="score-item"><span class="score-lbl">Score</span><span class="score-val" id="tet-score">0</span></div>
-            <div class="score-item"><span class="score-lbl">Lines</span><span class="score-val" id="tet-lines">0</span></div>
-            <div class="score-item"><span class="score-lbl">Best</span><span class="score-val" id="tet-best">0</span></div>
+      <!-- TETRIS -->
+      <div class="gscreen" id="gs-tetris">
+        <div class="game-scroll">
+          <div class="game-screen">
+            <div class="score-bar">
+              <div class="score-item"><span class="score-lbl">Score</span><span class="score-val" id="tet-score">0</span></div>
+              <div class="score-item"><span class="score-lbl">Lines</span><span class="score-val" id="tet-lines">0</span></div>
+              <div class="score-item"><span class="score-lbl">Best</span><span class="score-val" id="tet-best">0</span></div>
+            </div>
+            <div class="canvas-wrap" style="position:relative;">
+              <canvas id="tetrisCanvas" width="200" height="360"></canvas>
+              <button class="restart-btn" onclick="tetrisStart()" title="Restart"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 9,5 2,9"/></svg></button>
+            </div>
           </div>
-          <div class="canvas-wrap" style="position:relative;">
-            <canvas id="tetrisCanvas" width="200" height="360"></canvas>
-            <button class="restart-btn" onclick="tetrisStart()">&#9654; RESTART</button>
-          </div>
+        </div>
+        <div class="ls-controls">
+          <div class="rco-label">Controls</div>
           <div class="hpad">
             <button class="hbtn" onpointerdown="tetMove(-1)">&#9664;</button>
             <button class="hbtn" onpointerdown="tetRotate()">&#8635; ROT</button>
@@ -1119,21 +1201,24 @@ function updateLabels() {
           <div class="game-msg" id="tet-msg">Arrow keys or buttons to start</div>
         </div>
       </div>
-    </div>
 
-    <!-- BRICK BREAKER -->
-    <div class="gscreen" id="gs-brick">
-      <div class="game-scroll">
-        <div class="game-screen">
-          <div class="score-bar">
-            <div class="score-item"><span class="score-lbl">Score</span><span class="score-val" id="br-score">0</span></div>
-            <div class="score-item"><span class="score-lbl">Lives</span><span class="score-val" id="br-lives">3</span></div>
-            <div class="score-item"><span class="score-lbl">Best</span><span class="score-val" id="br-best">0</span></div>
+      <!-- BRICK BREAKER -->
+      <div class="gscreen" id="gs-brick">
+        <div class="game-scroll">
+          <div class="game-screen">
+            <div class="score-bar">
+              <div class="score-item"><span class="score-lbl">Score</span><span class="score-val" id="br-score">0</span></div>
+              <div class="score-item"><span class="score-lbl">Lives</span><span class="score-val" id="br-lives">3</span></div>
+              <div class="score-item"><span class="score-lbl">Best</span><span class="score-val" id="br-best">0</span></div>
+            </div>
+            <div class="canvas-wrap" style="position:relative;">
+              <canvas id="brickCanvas" width="280" height="300"></canvas>
+              <button class="restart-btn" onclick="brickStart()" title="Restart"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 9,5 2,9"/></svg></button>
+            </div>
           </div>
-          <div class="canvas-wrap" style="position:relative;">
-            <canvas id="brickCanvas" width="280" height="300"></canvas>
-            <button class="restart-btn" onclick="brickStart()">&#9654; RESTART</button>
-          </div>
+        </div>
+        <div class="ls-controls">
+          <div class="rco-label">Controls</div>
           <div class="hpad">
             <button class="hbtn" onpointerdown="brBtn('l',true)" onpointerup="brBtn('l',false)" onpointerleave="brBtn('l',false)">&#9664;&#9664; LEFT</button>
             <button class="hbtn" onpointerdown="brBtn('r',true)" onpointerup="brBtn('r',false)" onpointerleave="brBtn('r',false)">RIGHT &#9654;&#9654;</button>
@@ -1141,40 +1226,46 @@ function updateLabels() {
           <div class="game-msg" id="br-msg">Press RESTART or use arrow keys</div>
         </div>
       </div>
-    </div>
 
-    <!-- FLAPPY BIRD -->
-    <div class="gscreen" id="gs-flappy">
-      <div class="game-scroll">
-        <div class="game-screen">
-          <div class="score-bar">
-            <div class="score-item"><span class="score-lbl">Score</span><span class="score-val" id="fl-score">0</span></div>
-            <div class="score-item"><span class="score-lbl">Best</span><span class="score-val" id="fl-best">0</span></div>
+      <!-- FLAPPY BIRD -->
+      <div class="gscreen" id="gs-flappy">
+        <div class="game-scroll">
+          <div class="game-screen">
+            <div class="score-bar">
+              <div class="score-item"><span class="score-lbl">Score</span><span class="score-val" id="fl-score">0</span></div>
+              <div class="score-item"><span class="score-lbl">Best</span><span class="score-val" id="fl-best">0</span></div>
+            </div>
+            <div class="canvas-wrap" style="position:relative;">
+              <canvas id="flappyCanvas" width="280" height="320"></canvas>
+              <button class="restart-btn" onclick="flappyStart()" title="Restart"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 9,5 2,9"/></svg></button>
+            </div>
           </div>
-          <div class="canvas-wrap" style="position:relative;">
-            <canvas id="flappyCanvas" width="280" height="320"></canvas>
-            <button class="restart-btn" onclick="flappyStart()">&#9654; RESTART</button>
-          </div>
+        </div>
+        <div class="ls-controls">
+          <div class="rco-label">Controls</div>
           <div class="hpad">
             <button class="hbtn" style="flex:1" onpointerdown="flap()">&#9651; FLAP</button>
           </div>
           <div class="game-msg" id="fl-msg">Tap FLAP or SPACE to start</div>
         </div>
       </div>
-    </div>
 
-    <!-- 2048 -->
-    <div class="gscreen" id="gs-t2048">
-      <div class="game-scroll">
-        <div class="game-screen">
-          <div class="score-bar">
-            <div class="score-item"><span class="score-lbl">Score</span><span class="score-val" id="t2-score">0</span></div>
-            <div class="score-item"><span class="score-lbl">Best</span><span class="score-val" id="t2-best">0</span></div>
+      <!-- 2048 -->
+      <div class="gscreen" id="gs-t2048">
+        <div class="game-scroll">
+          <div class="game-screen">
+            <div class="score-bar">
+              <div class="score-item"><span class="score-lbl">Score</span><span class="score-val" id="t2-score">0</span></div>
+              <div class="score-item"><span class="score-lbl">Best</span><span class="score-val" id="t2-best">0</span></div>
+            </div>
+            <div class="canvas-wrap" style="position:relative;">
+              <canvas id="t2canvas" width="280" height="280"></canvas>
+              <button class="restart-btn" onclick="t2Start()" title="New Game"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 9,5 2,9"/></svg></button>
+            </div>
           </div>
-          <div class="canvas-wrap" style="position:relative;">
-            <canvas id="t2canvas" width="280" height="280"></canvas>
-            <button class="restart-btn" onclick="t2Start()">&#9654; NEW GAME</button>
-          </div>
+        </div>
+        <div class="ls-controls">
+          <div class="rco-label">Controls</div>
           <div class="dpad" style="margin-top:6px;">
             <div class="dp blank"></div>
             <button class="dp" onpointerdown="t2move(0)">&#9650;</button>
@@ -1189,20 +1280,23 @@ function updateLabels() {
           <div class="game-msg" id="t2-msg">Arrow keys or swipe to play</div>
         </div>
       </div>
-    </div>
 
-    <!-- PONG -->
-    <div class="gscreen" id="gs-pong">
-      <div class="game-scroll">
-        <div class="game-screen">
-          <div class="score-bar">
-            <div class="score-item"><span class="score-lbl">You</span><span class="score-val" id="pg-you">0</span></div>
-            <div class="score-item"><span class="score-lbl">AI</span><span class="score-val" id="pg-ai">0</span></div>
+      <!-- PONG -->
+      <div class="gscreen" id="gs-pong">
+        <div class="game-scroll">
+          <div class="game-screen">
+            <div class="score-bar">
+              <div class="score-item"><span class="score-lbl">You</span><span class="score-val" id="pg-you">0</span></div>
+              <div class="score-item"><span class="score-lbl">AI</span><span class="score-val" id="pg-ai">0</span></div>
+            </div>
+            <div class="canvas-wrap" style="position:relative;">
+              <canvas id="pongCanvas" width="320" height="200"></canvas>
+              <button class="restart-btn" onclick="pongStart()" title="Restart"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 9,5 2,9"/></svg></button>
+            </div>
           </div>
-          <div class="canvas-wrap" style="position:relative;">
-            <canvas id="pongCanvas" width="320" height="200"></canvas>
-            <button class="restart-btn" onclick="pongStart()">&#9654; RESTART</button>
-          </div>
+        </div>
+        <div class="ls-controls">
+          <div class="rco-label">Controls</div>
           <div class="hpad">
             <button class="hbtn" onpointerdown="pgBtn('u',true)" onpointerup="pgBtn('u',false)" onpointerleave="pgBtn('u',false)">&#9650; UP</button>
             <button class="hbtn" onpointerdown="pgBtn('d',true)" onpointerup="pgBtn('d',false)" onpointerleave="pgBtn('d',false)">DOWN &#9660;</button>
@@ -1210,10 +1304,14 @@ function updateLabels() {
           <div class="game-msg" id="pg-msg">Press RESTART or W/S keys</div>
         </div>
       </div>
-    </div>
 
-  </div>
-</div>
+    </div><!-- /#gameLCol -->
+
+    <!-- RIGHT COL: controls appear here in landscape via JS -->
+    <div id="gameRCol"></div>
+
+  </div><!-- /#gameBox -->
+</div><!-- /#gamePanel -->
 
 <script>
 /* ══════════════════════════════════
@@ -1256,6 +1354,7 @@ function openGames(){
   document.body.style.position='fixed';
   document.body.style.top='-'+_scrollY+'px';
   document.body.style.width='100%';
+  setTimeout(()=>syncLsControls(currentGame), 50);
 }
 function closeGames(){
   document.getElementById('gamePanel').classList.remove('open');
@@ -1268,6 +1367,27 @@ function closeGames(){
 }
 
 let currentGame = 'snake';
+
+/* Move .ls-controls into #gameRCol in landscape, put back in portrait */
+function syncLsControls(gameId) {
+  const rCol = document.getElementById('gameRCol');
+  if (!rCol) return;
+  const isLandscape = window.matchMedia('(orientation:landscape) and (min-width:700px)').matches;
+  // Return any controls currently in rCol back to their gscreen
+  while (rCol.firstChild) {
+    const ctrl = rCol.firstChild;
+    const targetId = ctrl.dataset.owner;
+    const owner = targetId ? document.getElementById(targetId) : null;
+    if (owner) owner.appendChild(ctrl);
+    else rCol.removeChild(ctrl);
+  }
+  if (!isLandscape) return;
+  const screen = document.getElementById('gs-' + gameId);
+  if (!screen) return;
+  const ctrl = screen.querySelector('.ls-controls');
+  if (ctrl) { ctrl.dataset.owner = 'gs-' + gameId; rCol.appendChild(ctrl); }
+}
+
 function switchGame(g, btn){
   // reset previous
   if(currentGame === 'snake'){ snPause(); snState={running:false,over:false}; snBody=[]; document.getElementById('sn-msg').textContent='Press START or arrow keys'; snDraw(); }
@@ -1278,6 +1398,7 @@ function switchGame(g, btn){
   document.querySelectorAll('.gtab').forEach(t=>t.classList.remove('act'));
   document.getElementById('gs-'+g).classList.add('act');
   btn.classList.add('act');
+  syncLsControls(g);
 }
 
 /* ══════ SNAKE ══════ */
@@ -2079,6 +2200,7 @@ switchGame=function(g,btn){
   if(g==='flappy')flappyStart();
   if(g==='t2048'){t2Draw(1);}
   if(g==='pong')pgDraw();
+  syncLsControls(g);
 };
 
 // Patch closeGames to stop new games
@@ -2137,6 +2259,16 @@ document.addEventListener('keyup',e=>{
   if(e.key==='ArrowRight')brKeys.r=false;
   if(e.key==='w'||e.key==='W'||e.key==='ArrowUp')pgKeys.u=false;
   if(e.key==='s'||e.key==='S'||e.key==='ArrowDown')pgKeys.d=false;
+});
+
+/* Re-sync controls panel on resize/orientation change */
+let _lsResizeTimer;
+window.addEventListener('resize', ()=>{
+  clearTimeout(_lsResizeTimer);
+  _lsResizeTimer = setTimeout(()=>syncLsControls(currentGame), 120);
+});
+window.addEventListener('orientationchange', ()=>{
+  setTimeout(()=>syncLsControls(currentGame), 200);
 });
 </script>
 </body>
