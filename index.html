@@ -30,7 +30,7 @@
 html,body {
   min-height:100vh; background:var(--bg); font-family:var(--ff);
   color:var(--tx); display:flex; align-items:center; justify-content:center;
-  padding:60px 20px; overflow-x:hidden; transition:background .5s,color .5s;
+  padding:20px 12px; overflow-x:hidden; transition:background .5s,color .5s;
 }
 [data-theme="dark"] body::before {
   content:''; position:fixed; inset:0;
@@ -149,31 +149,34 @@ html,body {
 }
 .toggle-wrap.vis { opacity:1; transform:translateY(0); }
 .toggle-btn {
-  display:flex; align-items:center; gap:8px; padding:8px 14px;
-  cursor:pointer; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
-  border:none; outline:none; transition:all .2s;
+  display:flex; align-items:center; justify-content:center;
+  width:38px; height:38px; padding:0;
+  cursor:pointer; border:none; outline:none; transition:all .2s;
 }
 [data-theme="dark"] .toggle-btn {
   font-family:'JetBrains Mono',monospace;
   background:#1c1c1c; color:#39ff14; border:1px solid #383838;
+  border-radius:4px;
 }
 [data-theme="dark"] .toggle-btn:hover { background:rgba(57,255,20,.07); box-shadow:0 0 14px rgba(57,255,20,.2); }
 [data-theme="light"] .toggle-btn {
   font-family:'Archivo Black',sans-serif;
   background:#ffe500; color:#111; border:3px solid #111; box-shadow:4px 4px 0 #111;
+  border-radius:0;
 }
 [data-theme="light"] .toggle-btn:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #111; }
 [data-theme="light"] .toggle-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 #111; }
+#tIcon svg { display:block; }
 
 /* ═══════════════════════════
    CARD
 ═══════════════════════════ */
 .card {
-  width:100%; max-width:740px; background:var(--card);
+  width:100%; max-width:680px; background:var(--card);
   border:var(--bw) solid var(--bb); position:relative; z-index:1;
   opacity:0; transform:translateY(24px) scale(.985);
   transition:background .5s,border .5s,box-shadow .5s,opacity .55s,transform .55s;
-  box-shadow:var(--hs); overflow:hidden;
+  box-shadow:var(--hs); overflow:visible;
 }
 .card.vis { opacity:1; transform:translateY(0) scale(1); }
 
@@ -429,6 +432,252 @@ html,body {
   .card { max-width:960px; }
   .body { padding:40px 48px 36px; }
 }
+
+/* ═══════════════════════════
+   MODEL TREE
+═══════════════════════════ */
+.model-tree {
+  margin-bottom: 28px;
+  position: relative;
+  overflow: visible;
+}
+
+/* Category rows (IMAGE / VIDEO) */
+.mt-cat {
+  margin-bottom: 10px;
+}
+.mt-cat-label {
+  font-size: 8px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+[data-theme="dark"] .mt-cat-label { color: var(--mu); }
+[data-theme="dark"] .mt-cat-label::before { content: '▸'; color: var(--sec); font-size: 9px; }
+[data-theme="light"] .mt-cat-label { font-family:'Archivo Black',sans-serif; color: #555; }
+[data-theme="light"] .mt-cat-label::before { content: '▸'; color: #ff3f00; font-size: 10px; }
+
+/* Open/closed section sources */
+.mt-section-label {
+  font-size: 8px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  margin-bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+[data-theme="dark"] .mt-section-label {
+  color: #ffb800;
+  border: 1px solid rgba(255,184,0,.35);
+  background: rgba(255,184,0,.07);
+  font-family: 'JetBrains Mono', monospace;
+}
+[data-theme="dark"] .mt-section-label::before { content: '◈'; color: #ffb800; font-size: 9px; }
+[data-theme="light"] .mt-section-label {
+  color: #111;
+  border: 3px solid #111;
+  background: #ffe500;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 7px;
+  box-shadow: 3px 3px 0 #111;
+}
+[data-theme="light"] .mt-section-label::before { content: '◆'; color: #ff3f00; font-size: 9px; }
+
+/* The row of root nodes */
+.mt-roots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  position: relative;
+  overflow: visible;
+  padding-bottom: 4px;
+}
+
+/* Base node style */
+.mt-node {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+.mt-node:hover,
+.mt-node.open {
+  z-index: 200;
+}
+
+/* The clickable/hoverable label */
+.mt-label {
+  font-size: 10px;
+  padding: 5px 11px;
+  cursor: pointer;
+  letter-spacing: .07em;
+  user-select: none;
+  white-space: nowrap;
+  position: relative;
+  z-index: 2;
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1),
+              background .12s, border-color .12s,
+              color .12s, box-shadow .15s;
+}
+[data-theme="dark"] .mt-label {
+  border: 1px solid var(--bb);
+  color: #dd99ff;
+  background: rgba(200,100,255,.06);
+}
+/* dark hover/open → neon GREEN */
+[data-theme="dark"] .mt-node:hover > .mt-label,
+[data-theme="dark"] .mt-node.open > .mt-label {
+  border-color: #39ff14;
+  color: #39ff14;
+  text-shadow: 0 0 12px rgba(57,255,20,.7);
+  box-shadow: 0 0 0 1px rgba(57,255,20,.35), 0 6px 20px rgba(57,255,20,.25);
+  transform: scale(1.13) translateY(-3px);
+  background: rgba(57,255,20,.09);
+  z-index: 5;
+}
+[data-theme="dark"] .mt-label.leaf {
+  color: #dd99ff;
+  border-color: rgba(200,100,255,.35);
+  background: rgba(200,100,255,.06);
+}
+[data-theme="dark"] .mt-label.leaf:hover {
+  border-color: #39ff14;
+  color: #39ff14;
+  text-shadow: 0 0 12px rgba(57,255,20,.7);
+  box-shadow: 0 0 0 1px rgba(57,255,20,.35), 0 6px 20px rgba(57,255,20,.25);
+  transform: scale(1.15) translateY(-3px);
+  background: rgba(57,255,20,.09);
+  cursor: pointer;
+}
+
+[data-theme="light"] .mt-label {
+  border: 3px solid #111;
+  color: #111;
+  background: #ffd6f5;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 9px;
+  box-shadow: 4px 4px 0 #111;
+  font-weight: 900;
+}
+/* light hover → darkened box */
+[data-theme="light"] .mt-node:hover > .mt-label,
+[data-theme="light"] .mt-node.open > .mt-label {
+  transform: scale(1.18) translateY(-5px) rotate(-2deg);
+  box-shadow: 6px 6px 0 #111;
+  background: #e8a8d8;
+  z-index: 5;
+}
+[data-theme="light"] .mt-label.leaf {
+  background: #ffd6f5;
+}
+[data-theme="light"] .mt-label.leaf:hover {
+  transform: scale(1.2) translateY(-5px) rotate(-3deg);
+  box-shadow: 6px 6px 0 #111;
+  background: #e8a8d8;
+  cursor: pointer;
+}
+[data-theme="light"] .mt-node.open > .mt-label {
+  background: #e8a8d8;
+}
+
+/* Children popup */
+.mt-children {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px) scale(.97);
+  z-index: 9999;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 10px;
+  min-width: 140px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease, transform .18s cubic-bezier(.34,1.56,.64,1);
+  isolation: isolate;
+}
+[data-theme="dark"] .mt-children {
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  box-shadow: 0 8px 28px rgba(0,0,0,.6), 0 0 0 1px rgba(200,100,255,.1);
+}
+[data-theme="light"] .mt-children {
+  background: #fff;
+  border: 3px solid #111;
+  box-shadow: 6px 6px 0 #111;
+}
+
+/* Children shown ONLY when pinned open via click */
+.mt-node.open > .mt-children {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* Connector line from parent to children */
+[data-theme="dark"] .mt-children::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 6px;
+  background: rgba(200,100,255,.4);
+}
+[data-theme="light"] .mt-children::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 6px;
+  background: #111;
+}
+
+/* Deep-level children (grandchildren) positioned to the right */
+.mt-node .mt-children .mt-node > .mt-children {
+  top: 0;
+  left: calc(100% + 6px);
+  transform: translateX(0) translateY(0) scale(.97);
+}
+.mt-node .mt-children .mt-node.open > .mt-children {
+  transform: translateX(0) translateY(0) scale(1);
+}
+.mt-node .mt-children .mt-node > .mt-children::before {
+  top: 50%;
+  left: -6px;
+  width: 6px;
+  height: 1px;
+  transform: translateY(-50%);
+}
+[data-theme="light"] .mt-node .mt-children .mt-node > .mt-children::before {
+  width: 6px;
+  height: 2px;
+  top: 50%;
+  left: -6px;
+  transform: translateY(-50%);
+}
+
+/* Keep open children visible on hover of parent */
+.mt-node.open > .mt-children { pointer-events: auto; }
+
+/* Mobile hint */
+.mt-hint {
+  font-size: 8px;
+  letter-spacing: .1em;
+  margin-top: 8px;
+  display: none;
+}
+[data-theme="dark"] .mt-hint { color: var(--mu2); }
+[data-theme="light"] .mt-hint { color: #aaa; font-family:'Archivo Black',sans-serif; }
+@media(hover:none) { .mt-hint { display:block; } }
 /* ═══════════════════════════
    GAME BUTTON + PANEL
 ═══════════════════════════ */
@@ -740,9 +989,8 @@ html,body {
 
 <!-- Toggle -->
 <div class="toggle-wrap" id="toggleWrap">
-  <button class="toggle-btn" onclick="toggleTheme()">
-    <span id="tIcon">☀</span>
-    <span id="tLabel">LIGHT MODE</span>
+  <button class="toggle-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">
+    <span id="tIcon"></span>
   </button>
 </div>
 
@@ -763,9 +1011,9 @@ html,body {
     <div class="tagline rv">AI Workflow Architect & Automation Engineer</div>
 
     <div class="stats rv">
-      <div class="stat"><div class="sv">1,296+</div><div class="sl">Pipelines Built</div></div>
-      <div class="stat"><div class="sv">120+</div><div class="sl">Products Shipped</div></div>
-      <div class="stat"><div class="sv">35k</div><div class="sl">Node Arch</div></div>
+      <div class="stat"><div class="sv" id="stat-pipelines">0</div><div class="sl">Pipelines Built</div></div>
+      <div class="stat"><div class="sv" id="stat-products">0</div><div class="sl">Products Shipped</div></div>
+      <div class="stat"><div class="sv" id="stat-nodes">0</div><div class="sl">Node Arch</div></div>
     </div>
 
     <div class="div rv"></div>
@@ -788,15 +1036,7 @@ html,body {
     </div>
 
     <div class="sh rv" id="shModels">// models worked with</div>
-    <div class="tags rv">
-      <div class="tag model">SD 1.5</div><div class="tag model">SDXL</div>
-      <div class="tag model">SD 3.5</div><div class="tag model">Flux.1 Schnell</div>
-      <div class="tag model">Flux.1 Dev</div><div class="tag model">Flux.1 Pro</div>
-      <div class="tag model">FLUX Kontext</div><div class="tag model">Wan 2.1</div>
-      <div class="tag model">CogVideoX</div><div class="tag model">HunyuanVideo</div>
-      <div class="tag model">LTX-Video</div><div class="tag model">Llama 3</div>
-      <div class="tag model">Mistral</div><div class="tag model">Qwen</div>
-    </div>
+    <div class="model-tree rv" id="modelTree"></div>
 
     <div class="sh rv" id="shEdu">// education</div>
     <div class="edu-grid rv">
@@ -1047,6 +1287,41 @@ function revealCard() {
     setTimeout(() => el.classList.add('on'), i * 60);
   });
   setTimeout(()=>{ const b=$('gameBtn'); if(b) b.classList.add('vis'); }, 800);
+  buildModelTree();
+  // ─── COUNTER ANIMATION ───
+  setTimeout(() => startCounters(), 200);
+}
+
+function startCounters() {
+  const DURATION = 8000;
+  const counters = [
+    { id: 'stat-pipelines', target: 1296, suffix: '+', format: n => n.toLocaleString() },
+    { id: 'stat-products',  target: 120,  suffix: '+', format: n => n.toString() },
+    { id: 'stat-nodes',     target: 35000, suffix: '', format: n => {
+        if (n >= 1000) return Math.round(n/1000) + 'k';
+        return n.toString();
+      }
+    },
+  ];
+  counters.forEach(c => {
+    const el = document.getElementById(c.id);
+    if (!el) return;
+    const startTime = performance.now();
+    function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+    function tick(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / DURATION, 1);
+      const eased = easeOutQuart(progress);
+      const current = Math.floor(eased * c.target);
+      el.textContent = c.format(current) + (progress < 1 ? '' : c.suffix);
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = c.format(c.target) + c.suffix;
+      }
+    }
+    requestAnimationFrame(tick);
+  });
 }
 
 /* ─── EMAIL (CF-safe) ─── */
@@ -1093,6 +1368,7 @@ function toggleTheme() {
   setTimeout(() => { flash.style.opacity='0'; setTimeout(()=>flash.remove(),250); }, 80);
   html.setAttribute('data-theme', dark ? 'dark' : 'light');
   updateLabels();
+  buildModelTree();
   // redraw games with new theme colors
   try { snDraw(); } catch(e){}
   try { tetDraw(); } catch(e){}
@@ -1102,12 +1378,272 @@ function toggleTheme() {
   try { pgDraw(); } catch(e){}
 }
 
+/* ─── MODEL TREE ─── */
+const MODEL_TREE = [
+  {
+    section: 'OPEN SOURCE',
+    categories: [
+      {
+        cat: 'IMAGE',
+        roots: [
+          {
+            label: 'Stable Diffusion',
+            children: [
+              { label: 'SD 1.4', url:'https://huggingface.co/CompVis/stable-diffusion-v1-4' },
+              { label: 'SD 1.5', children: [
+                { label: 'SD 1.5', url:'https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5' },
+                { label: 'SD 1.5-LCM', url:'https://huggingface.co/latent-consistency/lcm-lora-sdv1-5' },
+                { label: 'SD 1.5-Hyper', url:'https://huggingface.co/ByteDance/Hyper-SD' },
+              ]},
+              { label: 'SD 2.1', url:'https://huggingface.co/stabilityai/stable-diffusion-2-1' },
+              { label: 'SD 3.5', children: [
+                { label: 'SD 3.5 Medium', url:'https://huggingface.co/stabilityai/stable-diffusion-3.5-medium' },
+                { label: 'SD 3.5 Large', url:'https://huggingface.co/stabilityai/stable-diffusion-3.5-large' },
+                { label: 'SD 3.5 Large-Turbo', url:'https://huggingface.co/stabilityai/stable-diffusion-3.5-large-turbo' },
+              ]},
+              { label: 'SDXL', children: [
+                { label: 'SDXL 1.0', url:'https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0' },
+                { label: 'SDXL Turbo', url:'https://huggingface.co/stabilityai/sdxl-turbo' },
+                { label: 'SDXL Lightning', url:'https://huggingface.co/ByteDance/SDXL-Lightning' },
+                { label: 'SDXL Hyper', url:'https://huggingface.co/ByteDance/Hyper-SD' },
+                { label: 'Juggernaut XL', url:'https://huggingface.co/RunDiffusion/Juggernaut-XL-v9' },
+                { label: 'RealVisXL', url:'https://huggingface.co/SG161222/RealVisXL_V4.0' },
+                { label: 'DreamShaper XL', url:'https://huggingface.co/Lykon/dreamshaper-xl-1-0' },
+                { label: 'Pony V6 XL', url:'https://huggingface.co/hollowstrawberry/pony-diffusion-v6-xl' },
+              ]},
+            ]
+          },
+          {
+            label: 'FLUX',
+            children: [
+              { label: 'FLUX.1 Schnell', url:'https://huggingface.co/black-forest-labs/FLUX.1-schnell' },
+              { label: 'FLUX.1 Dev', url:'https://huggingface.co/black-forest-labs/FLUX.1-dev' },
+              { label: 'FLUX.1 Kontext', url:'https://huggingface.co/black-forest-labs/FLUX.1-Kontext-dev' },
+              { label: 'FLUX.1 Fill', url:'https://huggingface.co/black-forest-labs/FLUX.1-Fill-dev' },
+              { label: 'FLUX.1 Canny', url:'https://huggingface.co/black-forest-labs/FLUX.1-Canny-dev' },
+              { label: 'FLUX.1 Depth', url:'https://huggingface.co/black-forest-labs/FLUX.1-Depth-dev' },
+              { label: 'FLUX.1 Redux', url:'https://huggingface.co/black-forest-labs/FLUX.1-Redux-dev' },
+              { label: 'FLUX.2 Klein', children: [
+                { label: 'Klein 4B', url:'https://huggingface.co/black-forest-labs/FLUX.2-klein-4B' },
+                { label: 'Klein 9B', url:'https://huggingface.co/black-forest-labs/FLUX.2-klein-9B' },
+              ]},
+            ]
+          },
+          {
+            label: 'Qwen Image',
+            children: [
+              { label: 'Qwen-Image Gen', children: [
+                { label: 'Qwen-Image', url:'https://huggingface.co/Qwen/Qwen-Image' },
+                { label: 'Qwen-Image-2512', url:'https://huggingface.co/Qwen/Qwen-Image-2512' },
+              ]},
+              { label: 'Qwen-Image Edit', children: [
+                { label: 'QIE Base', url:'https://huggingface.co/Qwen/Qwen-Image-Edit' },
+                { label: 'QIE 2509', url:'https://huggingface.co/Qwen/Qwen-Image-Edit-2509' },
+                { label: 'QIE 2511', url:'https://huggingface.co/Qwen/Qwen-Image-Edit-2511' },
+                { label: 'QIE Layered', url:'https://huggingface.co/Qwen/Qwen-Image-Layered' },
+              ]},
+            ]
+          },
+          {
+            label: 'HiDream',
+            children: [
+              { label: 'HiDream-I1 Full', url:'https://huggingface.co/HiDream-ai/HiDream-I1-Full' },
+              { label: 'HiDream-I1 Dev', url:'https://huggingface.co/HiDream-ai/HiDream-I1-Dev' },
+              { label: 'HiDream-I1 Fast', url:'https://huggingface.co/HiDream-ai/HiDream-I1-Fast' },
+            ]
+          },
+          {
+            label: 'Hunyuan Image',
+            children: [
+              { label: 'Hunyuan DiT', url:'https://huggingface.co/Tencent-Hunyuan/HunyuanDiT' },
+              { label: 'HunyuanImage 2.1', url:'https://huggingface.co/tencent/HunyuanImage-2.1' },
+              { label: 'HunyuanImage 3.0', url:'https://huggingface.co/tencent/HunyuanImage-3.0' },
+            ]
+          },
+          { label: 'Chroma', url:'https://huggingface.co/lodestones/Chroma' },
+          {
+            label: 'LTXV',
+            children: [
+              { label: 'LTXV', url:'https://huggingface.co/Lightricks/LTX-Video' },
+              { label: 'LTXV 0.9.1', url:'https://huggingface.co/Lightricks/LTX-Video/blob/main/README.md' },
+              { label: 'LTXV 0.9.5', url:'https://huggingface.co/Lightricks/LTX-Video' },
+            ]
+          },
+          { label: 'Pony V7', url:'https://huggingface.co/datasets/multimodalart/pony-v7-samples' },
+          { label: 'Mochi-1', url:'https://huggingface.co/genmo/mochi-1-preview' },
+        ]
+      },
+      {
+        cat: 'VIDEO',
+        roots: [
+          {
+            label: 'Wan Video',
+            children: [
+              { label: 'Wan 2.1 T2V', url:'https://huggingface.co/Wan-AI/Wan2.1-T2V-14B' },
+              { label: 'Wan 2.1 I2V', url:'https://huggingface.co/Wan-AI/Wan2.1-I2V-14B' },
+              { label: 'Wan 2.2', url:'https://huggingface.co/Wan-AI/Wan2.2-T2V-A14B' },
+            ]
+          },
+          { label: 'HunyuanVideo', url:'https://huggingface.co/tencent/HunyuanVideo' },
+          {
+            label: 'CogVideoX',
+            children: [
+              { label: 'CogVideoX 2B', url:'https://huggingface.co/THUDM/CogVideoX-2b' },
+              { label: 'CogVideoX 5B', url:'https://huggingface.co/THUDM/CogVideoX-5b' },
+              { label: 'CogVideoX 5B-I2V', url:'https://huggingface.co/THUDM/CogVideoX-5b-I2V' },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+  {
+    section: 'CLOSED SOURCE',
+    categories: [
+      {
+        cat: 'IMAGE',
+        roots: [
+          { label: 'Midjourney v7', url:'https://www.midjourney.com' },
+          { label: 'DALL·E 3', url:'https://openai.com/dall-e-3' },
+          { label: 'GPT Image 1', url:'https://openai.com/research/gpt-image-1' },
+          { label: 'Imagen 4', url:'https://deepmind.google/technologies/imagen-4/' },
+          { label: 'FLUX 2 Pro', url:'https://blackforestlabs.ai' },
+          { label: 'Ideogram 3.0', url:'https://ideogram.ai' },
+          { label: 'Adobe Firefly', url:'https://firefly.adobe.com' },
+          { label: 'Recraft v3', url:'https://www.recraft.ai' },
+          { label: 'Luma Photon', url:'https://lumalabs.ai/photon' },
+          { label: 'Reve Image 1.0', url:'https://reve.art' },
+        ]
+      },
+      {
+        cat: 'VIDEO',
+        roots: [
+          { label: 'Runway Gen-4', url:'https://runwayml.com' },
+          { label: 'OpenAI Sora', url:'https://sora.com' },
+          { label: 'Google Veo 3', url:'https://deepmind.google/technologies/veo/' },
+          { label: 'Kling 2.0', url:'https://klingai.com' },
+          { label: 'Dream Machine 1.6', url:'https://lumalabs.ai/dream-machine' },
+          { label: 'Pika 2.0', url:'https://pika.art' },
+          { label: 'Hailuo / MiniMax', url:'https://hailuoai.com' },
+        ]
+      },
+    ]
+  },
+];
+
+function buildModelTree() {
+  const container = document.getElementById('modelTree');
+  if (!container) return;
+  container.innerHTML = '';
+
+  MODEL_TREE.forEach(sec => {
+    const secDiv = document.createElement('div');
+    secDiv.style.cssText = 'margin-bottom:14px;';
+
+    const secLabel = document.createElement('div');
+    secLabel.className = 'mt-section-label';
+    secLabel.textContent = sec.section;
+    secDiv.appendChild(secLabel);
+
+    sec.categories.forEach(cat => {
+      const catDiv = document.createElement('div');
+      catDiv.className = 'mt-cat';
+
+      const catLabel = document.createElement('div');
+      catLabel.className = 'mt-cat-label';
+      catLabel.textContent = cat.cat;
+      catDiv.appendChild(catLabel);
+
+      const rootsDiv = document.createElement('div');
+      rootsDiv.className = 'mt-roots';
+      cat.roots.forEach(r => rootsDiv.appendChild(buildNode(r, 0)));
+      catDiv.appendChild(rootsDiv);
+      secDiv.appendChild(catDiv);
+    });
+
+    container.appendChild(secDiv);
+  });
+
+  // Mobile tap hint
+  const hint = document.createElement('div');
+  hint.className = 'mt-hint';
+  hint.textContent = '↑ tap once to reveal children · tap again to pin · tap child to open link';
+  container.appendChild(hint);
+
+  // Global click-outside to close all pinned nodes
+  document.addEventListener('click', e => {
+    // If the click target is NOT inside any open node's label, close all
+    const clickedNode = e.target.closest('.mt-node');
+    if (!clickedNode) {
+      container.querySelectorAll('.mt-node.open').forEach(n => n.classList.remove('open'));
+    }
+  });
+}
+
+function buildNode(data, depth) {
+  const node = document.createElement('div');
+  node.className = 'mt-node';
+
+  const label = document.createElement('div');
+  label.className = 'mt-label' + ((!data.children || data.children.length === 0) && data.url ? ' leaf' : '');
+  label.textContent = data.label;
+  node.appendChild(label);
+
+  const hasChildren = data.children && data.children.length > 0;
+
+  if (hasChildren) {
+    // Add chevron hint
+    label.textContent = data.label + ' ›';
+
+    const children = document.createElement('div');
+    children.className = 'mt-children';
+    data.children.forEach(c => children.appendChild(buildNode(c, depth + 1)));
+    node.appendChild(children);
+
+    // Click to pin/unpin
+    label.addEventListener('click', e => {
+      e.stopPropagation();
+      const wasOpen = node.classList.contains('open');
+      // Close siblings at same level
+      const parent = node.parentElement;
+      if (parent) {
+        parent.querySelectorAll(':scope > .mt-node.open').forEach(n => {
+          if (n !== node) n.classList.remove('open');
+        });
+      }
+      node.classList.toggle('open', !wasOpen);
+    });
+
+  } else if (data.url) {
+    // Leaf with link
+    label.addEventListener('click', e => {
+      e.stopPropagation();
+      window.open(data.url, '_blank', 'noopener');
+    });
+  }
+
+  return node;
+}
+
 function updateLabels() {
   const t = $('tIcon');
-  const l = $('tLabel');
-  if (!t || !l) return;
-  $('tIcon').textContent  = dark ? '☀' : '◼';
-  $('tLabel').textContent = dark ? 'LIGHT MODE' : 'DARK MODE';
+  if (!t) return;
+  // Show sun in light mode, moon in dark mode (current state icon)
+  const sunSVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="5"/>
+    <line x1="12" y1="1" x2="12" y2="3"/>
+    <line x1="12" y1="21" x2="12" y2="23"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="1" y1="12" x2="3" y2="12"/>
+    <line x1="21" y1="12" x2="23" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </svg>`;
+  const moonSVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>`;
+  t.innerHTML = dark ? moonSVG : sunSVG;
   $('tabLabel').textContent      = dark ? 'pranav.jagtap — profile.sh' : 'PRANAV JAGTAP';
   $('sText').textContent         = 'AVAILABLE FOR WORK';
   $('shStack').textContent       = dark ? '// stack'              : 'TECH STACK';
