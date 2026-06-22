@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pranav Jagtap</title>
+<title>Pranav Jagtap — Applied AI Systems Engineer</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Space+Mono:wght@400;700&family=Archivo+Black&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -297,6 +297,13 @@ html,body {
 [data-theme="light"] .tagline { font-family:'Archivo Black',sans-serif; font-size:10px; color:#444; letter-spacing:.08em; }
 [data-theme="light"] .tagline::before { content:'◆'; color:var(--ac); font-size:12px; }
 
+.subtag {
+  font-size:10px; color:var(--mu); letter-spacing:.12em; line-height:1.5;
+  margin-bottom:28px; max-width:480px;
+}
+[data-theme="dark"] .subtag { color:var(--mu); }
+[data-theme="light"] .subtag { font-family:'Archivo Black',sans-serif; font-size:9px; color:#555; }
+
 .div { height:var(--bw); margin:24px 0; }
 [data-theme="dark"] .div { background:linear-gradient(90deg,rgba(57,255,20,.1),var(--border),transparent); }
 [data-theme="light"] .div { background:#111; }
@@ -392,9 +399,9 @@ html,body {
 [data-theme="light"] .proj:hover { transform:translate(-4px,-4px); box-shadow:10px 10px 0 #111; background:#fff8f6; }
 .plabel { font-size:9px; color:var(--ac); letter-spacing:.2em; text-transform:uppercase; margin-bottom:6px; }
 [data-theme="light"] .plabel { font-family:'Archivo Black',sans-serif; font-size:8px; }
-.pname { font-size:13px; font-weight:700; color:var(--tx); margin-bottom:4px; word-break:break-word; line-height:1.3; }
+.pname { font-size:13px; font-weight:700; color:var(--tx); margin-bottom:4px; word-break:break-word; line-height:1.3; transition:opacity .2s; }
 [data-theme="light"] .pname { font-family:'Unbounded',sans-serif; font-size:11px; }
-.pdesc { font-size:10px; color:var(--mu); line-height:1.65; word-break:break-word; }
+.pdesc { font-size:10px; color:var(--mu); line-height:1.65; word-break:break-word; transition:opacity .2s; }
 [data-theme="light"] .pdesc { font-family:'Archivo Black',sans-serif; font-size:9px; }
 
 /* contact */
@@ -432,6 +439,25 @@ html,body {
   .card { max-width:960px; }
   .body { padding:40px 48px 36px; }
 }
+
+.model-context {
+  font-size:9px; color:var(--mu); letter-spacing:.04em;
+  margin-bottom:10px; line-height:1.5;
+}
+[data-theme="light"] .model-context { font-family:'Archivo Black',sans-serif; font-size:8px; color:#666; }
+
+/* grouped stack */
+.stack-group { margin-bottom:28px; }
+.sg-row { margin-bottom:14px; }
+.sg-row:last-child { margin-bottom:0; }
+.sg-label {
+  font-size:8px; letter-spacing:.18em; text-transform:uppercase;
+  margin-bottom:6px; display:flex; align-items:center; gap:6px;
+}
+[data-theme="dark"] .sg-label { color:var(--mu); }
+[data-theme="dark"] .sg-label::before { content:'▸'; color:var(--sec); font-size:9px; }
+[data-theme="light"] .sg-label { font-family:'Archivo Black',sans-serif; color:#555; }
+[data-theme="light"] .sg-label::before { content:'▸'; color:#ff3f00; font-size:10px; }
 
 /* ═══════════════════════════
    MODEL TREE
@@ -973,15 +999,17 @@ html,body {
   </div>
   <div id="neoTicker">
     <div id="neoTickerInner">
-      <span class="ticker-item">AI WORKFLOW ARCHITECT</span>
-      <span class="ticker-item">AUTOMATION ENGINEER</span>
-      <span class="ticker-item">1296 PIPELINES</span>
-      <span class="ticker-item">GENERATIVE AI</span>
+      <span class="ticker-item">APPLIED AI SYSTEMS ENGINEER</span>
+      <span class="ticker-item">AI AGENTS & MULTI-AGENT SYSTEMS</span>
+      <span class="ticker-item">INFERENCE INFRASTRUCTURE</span>
+      <span class="ticker-item">GENERATIVE MEDIA SYSTEMS</span>
+      <span class="ticker-item">SELF HOSTED AI</span>
       <span class="ticker-item">PUNE INDIA</span>
-      <span class="ticker-item">AI WORKFLOW ARCHITECT</span>
-      <span class="ticker-item">AUTOMATION ENGINEER</span>
-      <span class="ticker-item">1296 PIPELINES</span>
-      <span class="ticker-item">GENERATIVE AI</span>
+      <span class="ticker-item">APPLIED AI SYSTEMS ENGINEER</span>
+      <span class="ticker-item">AI AGENTS & MULTI-AGENT SYSTEMS</span>
+      <span class="ticker-item">INFERENCE INFRASTRUCTURE</span>
+      <span class="ticker-item">GENERATIVE MEDIA SYSTEMS</span>
+      <span class="ticker-item">SELF HOSTED AI</span>
       <span class="ticker-item">PUNE INDIA</span>
     </div>
   </div>
@@ -998,7 +1026,7 @@ html,body {
 <div class="card" id="card">
   <div class="titlebar">
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <div class="tab-label" id="tabLabel">pranav.jagtap — profile.sh</div>
+    <div class="tab-label" id="tabLabel">pranav.jagtap — systems.sh</div>
     <div class="tb-status"><div class="sdot"></div><span id="sText">AVAILABLE FOR WORK</span></div>
   </div>
   <div class="body">
@@ -1008,42 +1036,112 @@ html,body {
       <div class="name">Pranav<span class="hl">.</span></div>
       <div class="name">Jagtap</div>
     </div>
-    <div class="tagline rv">AI Workflow Architect & Automation Engineer</div>
+    <div class="tagline rv">Applied AI Systems Engineer</div>
+    <div class="subtag rv">Building AI Products, Agents, Infrastructure and Generative Media Systems</div>
 
     <div class="stats rv">
-      <div class="stat"><div class="sv" id="stat-pipelines">0</div><div class="sl">Pipelines Built</div></div>
-      <div class="stat"><div class="sv" id="stat-products">0</div><div class="sl">Products Shipped</div></div>
-      <div class="stat"><div class="sv" id="stat-nodes">0</div><div class="sl">Node Arch</div></div>
+      <div class="stat"><div class="sv" id="stat-systems">0</div><div class="sl">AI Systems Built</div></div>
+      <div class="stat"><div class="sv" id="stat-deployments">0</div><div class="sl">Production Deployments</div></div>
+      <div class="stat"><div class="sv" id="stat-models">0</div><div class="sl">Models Evaluated</div></div>
     </div>
 
     <div class="div rv"></div>
 
     <div class="sh rv" id="shStack">// stack</div>
+
+    <div class="stack-group rv">
+      <div class="sg-row">
+        <div class="sg-label">AI Systems</div>
+        <div class="tags">
+          <div class="tag hot">Agents</div><div class="tag hot">Multi-Agent Systems</div>
+          <div class="tag hot">MCP</div><div class="tag hot">Tool Calling</div>
+          <div class="tag hot">RAG</div><div class="tag hot">Workflow Orchestration</div>
+        </div>
+      </div>
+      <div class="sg-row">
+        <div class="sg-label">Generative AI</div>
+        <div class="tags">
+          <div class="tag">ComfyUI</div><div class="tag">Diffusion Models</div>
+          <div class="tag">Video Generation</div><div class="tag">Vision Models</div>
+          <div class="tag">LoRA Training</div><div class="tag">Fine Tuning</div>
+        </div>
+      </div>
+      <div class="sg-row">
+        <div class="sg-label">Infrastructure</div>
+        <div class="tags">
+          <div class="tag">Docker</div><div class="tag">Linux</div>
+          <div class="tag">PostgreSQL</div><div class="tag">Redis</div>
+          <div class="tag">Cloudflare</div><div class="tag">Railway</div>
+          <div class="tag">Self Hosting</div>
+        </div>
+      </div>
+      <div class="sg-row">
+        <div class="sg-label">Automation</div>
+        <div class="tags">
+          <div class="tag">OpenCode</div><div class="tag">N8N</div>
+          <div class="tag">API Integrations</div><div class="tag">Deployment Automation</div>
+          <div class="tag">Monitoring</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sh rv" id="shExpertise">// expertise</div>
     <div class="tags rv">
-      <div class="tag hot">ComfyUI</div><div class="tag hot">LLMs</div>
-      <div class="tag hot">RAG</div><div class="tag hot">N8N</div>
-      <div class="tag">ControlNet</div><div class="tag">ViT-Pose</div>
-      <div class="tag">SAM2</div><div class="tag">IPAdapter</div>
-      <div class="tag">LoRA Fine-tuning</div><div class="tag">REST APIs</div>
-      <div class="tag">Serverless Pods</div>
+      <div class="tag hot">AI Product Architecture</div><div class="tag hot">AI Agent Systems</div>
+      <div class="tag hot">Inference Infrastructure</div><div class="tag hot">Generative Media Pipelines</div>
+      <div class="tag">Deployment Automation</div><div class="tag">Hardware Optimization</div>
+      <div class="tag">Workflow Engineering</div><div class="tag">Team Leadership</div>
+    </div>
+
+    <div class="sh rv" id="shDomains">// domains</div>
+    <div class="tags rv">
+      <div class="tag lang">Image Generation</div><div class="tag lang">Video Generation</div>
+      <div class="tag lang">Image Editing</div><div class="tag lang">Vision AI</div>
+      <div class="tag lang">Speech Systems</div><div class="tag lang">Agent Systems</div>
+      <div class="tag lang">RAG Systems</div><div class="tag lang">Automation Systems</div>
+      <div class="tag lang">Game Development</div><div class="tag lang">3D Pipelines</div>
+    </div>
+
+    <div class="sh rv" id="shInfra">// infrastructure</div>
+    <div class="tags rv">
+      <div class="tag model">Local AI Servers</div><div class="tag model">Self Hosted AI</div>
+      <div class="tag model">Cloud Deployments</div><div class="tag model">GPU Selection</div>
+      <div class="tag model">Cost Optimization</div><div class="tag model">Inference Scaling</div>
+      <div class="tag model">Monitoring</div><div class="tag model">Reliability</div>
+    </div>
+
+    <div class="sh rv" id="shPrinciples">// operating principles</div>
+    <div class="tags rv">
+      <div class="tag">Build First</div><div class="tag">Production Focused</div>
+      <div class="tag">Cost Aware</div><div class="tag">Local First</div>
+      <div class="tag">Automate Everything</div><div class="tag">Scale Only When Needed</div>
     </div>
 
     <div class="sh rv" id="shLang">// languages</div>
     <div class="tags rv">
       <div class="tag lang">Python</div><div class="tag lang">C</div>
       <div class="tag lang">C++</div><div class="tag lang">C#</div>
-      <div class="tag lang">Unity</div><div class="tag lang">JSON</div>
+      <div class="tag lang">Rust</div><div class="tag lang">Go</div>
+      <div class="tag lang">Unity</div><div class="tag lang">TypeScript</div>
     </div>
 
-    <div class="sh rv" id="shModels">// models worked with</div>
+    <div class="sh rv" id="shModels">// models evaluated</div>
+    <div class="model-context rv">Evaluated and deployed across image, video, and multimodal models — open and closed source</div>
     <div class="model-tree rv" id="modelTree"></div>
 
-    <div class="sh rv" id="shEdu">// education</div>
+    <div class="sh rv" id="shBuild">// currently shipping</div>
+    <div class="proj rv" id="rotatingProj">
+      <div class="plabel" id="pLabel">▶ active focus</div>
+      <div class="pname" id="rpName">AI Agent Platforms</div>
+      <div class="pdesc" id="rpDesc">Building autonomous agent systems with tool calling, MCP integration, and multi-agent orchestration</div>
+    </div>
+
+    <div class="sh rv" id="shEdu">// background</div>
     <div class="edu-grid rv">
       <div class="edu cur">
         <div class="sch">AISSMS College</div>
         <div class="deg">Diploma in Engineering (Polytechnic)</div>
-        <span class="badge">Current — 4th Sem</span>
+        <span class="badge">Current — 5th Sem</span>
       </div>
       <div class="edu">
         <div class="sch">MP International</div>
@@ -1055,13 +1153,6 @@ html,body {
         <div class="deg">SSC — Goregaon West</div>
         <span class="badge">2021 — 85.4%</span>
       </div>
-    </div>
-
-    <div class="sh rv" id="shBuild">// currently shipping</div>
-    <div class="proj rv">
-      <div class="plabel" id="pLabel">▶ active build</div>
-      <div class="pname">Wan-One-To-All — Video Synthesis Engine</div>
-      <div class="pdesc">Distributed inference · 720p latent upscaling · temporal coherence · tiled VRAM decoding · One-to-Many broadcast</div>
     </div>
 
     <div class="sh rv" id="shContact">// reach me</div>
@@ -1148,14 +1239,14 @@ async function runProg(fillEl, labelEl, labelText) {
 
 /* ─── DARK BOOT ─── */
 const bootLines = [
-  { id:'b0', text:'PRANAV_OS v2.1 — BOOTING', cd:9 },
-  { id:'b1', text:'[0.00] mounting modules...', cd:7 },
-  { id:'b2', text:'[0.12] ✓ comfyui · llm · rag — online', cd:7 },
-  { id:'b3', text:'[0.24] ✓ flux · sd · wan · 14 models loaded', cd:7 },
-  { id:'b4', text:'[0.36] ⚠ latent_space — calibrating', cd:7 },
-  { id:'b5', text:'[0.48] ✓ python · c · c++ · c# · unity', cd:7 },
-  { id:'b6', text:'[0.60] ✓ 1,296 pipelines · n8n · pods', cd:7 },
-  { id:'b7', text:'[0.72] ✓ pranav.jagtap — AUTHENTICATED ✓', cd:9 },
+  { id:'b0', text:'PRANAV_OS v3.0 — BOOTING', cd:9 },
+  { id:'b1', text:'[0.00] mounting ai systems kernel...', cd:7 },
+  { id:'b2', text:'[0.12] ✓ agents · multi-agent · mcp — online', cd:7 },
+  { id:'b3', text:'[0.24] ✓ inference engine · 47 models evaluated', cd:7 },
+  { id:'b4', text:'[0.36] ⚠ self-hosted cluster — calibrating', cd:7 },
+  { id:'b5', text:'[0.48] ✓ python · c · c++ · c# · rust · go', cd:7 },
+  { id:'b6', text:'[0.60] ✓ 200+ ai systems · 85 deployments', cd:7 },
+  { id:'b7', text:'[0.72] ✓ pranav.jagtap — APPLIED AI SYSTEMS ENGINEER ✓', cd:9 },
 ];
 
 async function darkBoot() {
@@ -1290,18 +1381,16 @@ function revealCard() {
   buildModelTree();
   // ─── COUNTER ANIMATION ───
   setTimeout(() => startCounters(), 200);
+  // ─── ROTATING PROJECT ───
+  setTimeout(() => startRotatingProject(), 1200);
 }
 
 function startCounters() {
   const DURATION = 8000;
   const counters = [
-    { id: 'stat-pipelines', target: 1296, suffix: '+', format: n => n.toLocaleString() },
-    { id: 'stat-products',  target: 120,  suffix: '+', format: n => n.toString() },
-    { id: 'stat-nodes',     target: 35000, suffix: '', format: n => {
-        if (n >= 1000) return Math.round(n/1000) + 'k';
-        return n.toString();
-      }
-    },
+    { id: 'stat-systems', target: 206, suffix: '+', format: n => n.toString() },
+    { id: 'stat-deployments',  target: 85,  suffix: '+', format: n => n.toString() },
+    { id: 'stat-models',     target: 47, suffix: '', format: n => n.toString() },
   ];
   counters.forEach(c => {
     const el = document.getElementById(c.id);
@@ -1345,6 +1434,36 @@ function triggerGlitch() {
   setTimeout(() => { nb.classList.remove('glitch'); setTimeout(() => glitchCd = false, 200); }, 420);
 }
 nb.addEventListener('mouseenter', triggerGlitch);
+
+/* ─── ROTATING PROJECT FOCUS ─── */
+const ROTATING_PROJECTS = [
+  { name: 'AI Agent Platforms', desc: 'Building autonomous agent systems with tool calling, MCP integration, and multi-agent orchestration' },
+  { name: 'Generative Media Systems', desc: 'Distributed video synthesis · 720p latent upscaling · temporal coherence · tiled VRAM decoding' },
+  { name: 'Inference Infrastructure', desc: 'Self-hosted LLM serving · llama.cpp · cloud deployment · GPU optimization · cost-efficient scaling' },
+  { name: 'Automation Products', desc: 'End-to-end workflow automation · N8N pipelines · API integration · deployment automation · monitoring' },
+  { name: 'Open Source Tooling', desc: 'Contributing to AI tooling ecosystem · building reusable components · developer experience' },
+  { name: 'AI Deployment Systems', desc: 'Production AI infrastructure · Docker · Railway · Cloudflare · self-hosted clusters · reliable deployments' },
+];
+let rpIndex = 0;
+let rpInterval = null;
+
+function startRotatingProject() {
+  const nameEl = document.getElementById('rpName');
+  const descEl = document.getElementById('rpDesc');
+  if (!nameEl || !descEl) return;
+  rpInterval = setInterval(() => {
+    rpIndex = (rpIndex + 1) % ROTATING_PROJECTS.length;
+    const p = ROTATING_PROJECTS[rpIndex];
+    nameEl.style.opacity = '0';
+    descEl.style.opacity = '0';
+    setTimeout(() => {
+      nameEl.textContent = p.name;
+      descEl.textContent = p.desc;
+      nameEl.style.opacity = '1';
+      descEl.style.opacity = '1';
+    }, 200);
+  }, 5000);
+}
 
 /* ─── RIPPLE ─── */
 $('card').addEventListener('click', function(e) {
@@ -1644,16 +1763,20 @@ function updateLabels() {
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
   </svg>`;
   t.innerHTML = dark ? moonSVG : sunSVG;
-  $('tabLabel').textContent      = dark ? 'pranav.jagtap — profile.sh' : 'PRANAV JAGTAP';
+  $('tabLabel').textContent      = dark ? 'pranav.jagtap — systems.sh' : 'PRANAV JAGTAP';
   $('sText').textContent         = 'AVAILABLE FOR WORK';
   $('shStack').textContent       = dark ? '// stack'              : 'TECH STACK';
+  $('shExpertise').textContent   = dark ? '// expertise'          : 'EXPERTISE';
+  $('shDomains').textContent     = dark ? '// domains'            : 'DOMAINS';
+  $('shInfra').textContent       = dark ? '// infrastructure'     : 'INFRASTRUCTURE';
+  $('shPrinciples').textContent  = dark ? '// operating principles' : 'PRINCIPLES';
   $('shLang').textContent        = dark ? '// languages'          : 'LANGUAGES';
-  $('shModels').textContent      = dark ? '// models worked with' : 'MODELS';
-  $('shEdu').textContent         = dark ? '// education'          : 'EDUCATION';
+  $('shModels').textContent      = dark ? '// models evaluated'   : 'MODELS EVALUATED';
   $('shBuild').textContent       = dark ? '// currently shipping' : 'CURRENTLY SHIPPING';
+  $('shEdu').textContent         = dark ? '// background'         : 'BACKGROUND';
   $('shContact').textContent     = dark ? '// reach me'           : 'GET IN TOUCH';
-  $('pLabel').textContent        = dark ? '▶ active build'        : '★ ACTIVE BUILD';
-  $('fRight').innerHTML          = dark ? 'exit code <span>0</span> — all systems nominal' : 'Open to collabs & freelance <span>→</span>';
+  $('pLabel').textContent        = dark ? '▶ active focus'        : '★ ACTIVE FOCUS';
+  $('fRight').innerHTML          = dark ? 'exit code <span>0</span> — all systems nominal' : 'Systems engineered, products shipped, infrastructure deployed <span>→</span>';
 }
 </script>
 <!-- GAME BUTTON -->
